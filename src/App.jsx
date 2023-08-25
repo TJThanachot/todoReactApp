@@ -1,64 +1,30 @@
-import { useState } from "react";
 import "./App.css";
+import useTodo from "./hooks/useTodo.js";
 import { HiX } from "react-icons/hi";
-import BoxHeader from "./components/boxHeader";
 
 function App() {
-  const [text, setText] = useState("");
-  const [errorText, setErrorText] = useState("");
-  const [todoList, setTodoList] = useState([]);
-
-  const addTextToList = () => {
-    const newTodoList = [...todoList];
-    const object = {};
-    if (text && text.length < 36) {
-      object.text = text;
-      setErrorText("");
-    } else {
-      setErrorText("Text must less than 36 character");
-    }
-    object.check = "";
-    object.text ? newTodoList.push(object) : null;
-
-    // check date that is created ***********
-    const createdAt = new Date();
-    const [day, month, year] = [
-      createdAt.getDate(),
-      createdAt.getMonth() + 1,
-      createdAt.getFullYear(),
-    ];
-    object.created = `created ${day}:${month}:${year}`;
-
-    setTodoList(newTodoList);
-  };
-
-  // check box condition ************
-  const addCheck = (getIndex) => {
-    const newTodoList = [...todoList];
-    if (todoList[getIndex].check === "") {
-      newTodoList[getIndex].check = "checked";
-    } else {
-      newTodoList[getIndex].check = "";
-    }
-    setTodoList(newTodoList);
-  };
-
-  const deleteList = (getIndex) => {
-    const newTodoList = todoList.filter((item, index) => {
-      return index !== getIndex;
-    });
-
-    setTodoList(newTodoList);
-  };
+  const {
+    errorText,
+    todoList,
+    darkMode,
+    setText,
+    addTextToList,
+    addCheck,
+    deleteList,
+    changeMode,
+  } = useTodo();
 
   return (
-    <>
+    // set dark mode ************
+    <section data-theme={darkMode.dark} className="z-0 h-screen bg- ">
       <header className="bg-gradient-to-r from-purple-500 to-pink-500 w-full h-[20rem]"></header>
+
       <div className="flex justify-center mt-[-8rem] ">
         <div
           className="menu bg-base-200 w-[50%] h-auto rounded-box items-center justify-around min-h-[10rem]
       gap-[2rem] py-7 min-w-[37rem] shadow-lg shadow-zinc-600"
         >
+          {/* error text element ************ */}
           {errorText ? (
             <div className="alert alert-error transition">
               <svg
@@ -77,9 +43,19 @@ function App() {
               <span>{errorText}</span>
             </div>
           ) : null}
-          <div className="flex justify-between items-center w-[80%]">
-            <h2 className="text-4xl font-extrabold ">T O D O</h2>
-            <input type="checkbox" className="toggle toggle-info" checked />
+
+          {/* box header element **************** */}
+          <div className="flex justify-between items-center w-[80%] ">
+            <h2 className="text-5xl font-extrabold ">T O D O</h2>
+
+            {/* toggle mode ************* */}
+            <input
+              readOnly
+              type={darkMode.checkBox}
+              className="toggle toggle-info"
+              checked
+              onClick={changeMode}
+            />
           </div>
 
           <div className="w-[90%] flex justify-between gap-5 items-center mx-5 ">
@@ -91,11 +67,13 @@ function App() {
                 setText(e.target.value);
               }}
             />
-
+            {/* add to do list ***************** */}
             <button onClick={addTextToList} className="btn btn-primary ">
               Add To Do
             </button>
           </div>
+
+          {/* box body element ****************** */}
           <ul className="menu bg-base-200 w-full rounded-box p-0 ">
             {todoList.map((item, index) => {
               return (
@@ -106,6 +84,7 @@ function App() {
                   <h2 className="w-full justify-between text-lg font-semibold">
                     <div className="form-control">
                       <label className="cursor-pointer label">
+                        {/* checkBox condition *************** */}
                         <input
                           type="checkbox"
                           checked={item.check}
@@ -117,12 +96,14 @@ function App() {
                         />
                       </label>
                     </div>
-
+                    {/* display text ***************** */}
                     {item !== {} ? item.text : null}
                     <div className="flex items-center gap-2">
+                      {/* created time element ************** */}
                       <div className="badge badge-accent badge-outline">
                         {item.created}
                       </div>
+                      {/* delete button ****************** */}
                       <button
                         onClick={() => {
                           deleteList(index);
@@ -139,7 +120,7 @@ function App() {
           </ul>
         </div>
       </div>
-    </>
+    </section>
   );
 }
 
