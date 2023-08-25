@@ -16,7 +16,7 @@ function App() {
 
   return (
     // set dark mode ************
-    <section data-theme={darkMode.dark} className="z-0 h-screen bg- ">
+    <section data-theme={darkMode.dark} className=" h-auto min-h-screen ">
       <header className="bg-gradient-to-r from-purple-500 to-pink-500 w-full h-[20rem]"></header>
 
       <div className="flex justify-center mt-[-8rem] ">
