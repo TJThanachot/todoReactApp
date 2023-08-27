@@ -3,7 +3,19 @@ import { useState } from "react";
 const useTodo = () => {
   const [text, setText] = useState("");
   const [errorText, setErrorText] = useState("");
-  const [todoList, setTodoList] = useState([]);
+
+  const [todoList, setTodoList] = useState(() => {
+    // set default is getting item from localStorage *********
+    const output = localStorage.getItem("todoList");
+    let result;
+    if (output) {
+      result = JSON.parse(output);
+    } else {
+      result = [];
+    }
+    return result;
+  });
+
   const [darkMode, setDarkMode] = useState({
     dark: "light",
     checkBox: "check",
@@ -19,7 +31,6 @@ const useTodo = () => {
       setErrorText("Text must less than 36 character");
     }
     object.check = "";
-    object.text ? newTodoList.push(object) : null;
 
     // check date that is created ***********
     const createdAt = new Date();
@@ -29,6 +40,7 @@ const useTodo = () => {
       createdAt.getFullYear(),
     ];
     object.created = `created ${day}:${month}:${year}`;
+    object.text ? newTodoList.push(object) : null;
 
     setTodoList(newTodoList);
   };

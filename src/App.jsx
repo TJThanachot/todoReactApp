@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import "./App.css";
 import useTodo from "./hooks/useTodo.js";
 import { HiX } from "react-icons/hi";
@@ -13,6 +14,10 @@ function App() {
     deleteList,
     changeMode,
   } = useTodo();
+
+  useEffect(() => {
+    localStorage.setItem("todoList", JSON.stringify(todoList));
+  }, [todoList]);
 
   return (
     // set dark mode ************
@@ -97,7 +102,7 @@ function App() {
                       </label>
                     </div>
                     {/* display text ***************** */}
-                    {item !== {} ? item.text : null}
+                    {item.text}
                     <div className="flex items-center gap-2">
                       {/* created time element ************** */}
                       <div className="badge badge-accent badge-outline">
