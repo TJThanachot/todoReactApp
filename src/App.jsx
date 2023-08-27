@@ -31,7 +31,7 @@ function App() {
         >
           {/* error text element ************ */}
           {errorText ? (
-            <div className="alert alert-error transition">
+            <div className="alert alert-error">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="stroke-current shrink-0 h-6 w-6"
@@ -84,7 +84,7 @@ function App() {
               return (
                 <li
                   key={index}
-                  className=" menu bg-base-200 w-full rounded-box flex-row items-center justify-between "
+                  className="transition-all duration-300  hover:scale-125 menu bg-base-200 w-full rounded-box flex-row items-center justify-between "
                 >
                   <h2 className="w-full justify-between text-lg font-semibold">
                     <div className="form-control">
